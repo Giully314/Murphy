@@ -144,7 +144,7 @@ namespace murphy::http
 		// TODO: add exceptions.
 		auto Parse(ds::NonOwnedBuffer b) -> void
 		{
-			std::string_view msg{ b.Data(), b.Size() };
+			const std::string_view msg{ b.Data(), b.Size() };
 
 			// General notes: the http message ends with \r\n\r\n 
 			// (one is from a header, the other is to signal blank line).
@@ -158,7 +158,7 @@ namespace murphy::http
 				// throw
 			}
 
-			auto request_line = msg.substr(0, end_of_request_line);
+			const auto request_line = msg.substr(0, end_of_request_line);
 
 			// Extract method.
 			u64 i = 0;

@@ -148,7 +148,7 @@ namespace murphy::http
 		// Parse a response message and create a struct.
 		auto Parse(ds::NonOwnedBuffer b) -> void
 		{
-			std::string_view msg{ b.Data(), b.Size() };
+			const std::string_view msg{ b.Data(), b.Size() };
 
 			// General notes: the http message ends with \r\n\r\n 
 			// (one is from a header, the other is to signal blank line).
@@ -162,7 +162,7 @@ namespace murphy::http
 				// throw
 			}
 
-			auto status_line = msg.substr(0, end_of_status_line);
+			const auto status_line = msg.substr(0, end_of_status_line);
 
 			// Extract method.
 			u64 i = 0;
@@ -204,6 +204,7 @@ namespace murphy::http
 			}
 			// +2 because we skip \r\n
 			end_of_status_line += 2;
+			end_of_fields_pos += 4;
 			ds::NonOwnedBuffer headers(b.Data() + end_of_status_line, end_of_fields_pos - end_of_status_line);
 
 			// TODO: Check for errors.
