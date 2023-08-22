@@ -53,6 +53,7 @@ namespace murphy::http
 	template <header_container THeader = MapHeader, body_container TBody = StringBody>
 	class [[nodiscard]] Response final : public THeader, private TBody::ValueType
 	{
+	public:
 		using BaseHeader = THeader;
 		using BaseBody = TBody;
 		using BodyType = typename TBody::ValueType;
@@ -81,10 +82,29 @@ namespace murphy::http
 			return status_code;
 		}
 
+
 		[[nodiscard]]
 		auto StatusText() const noexcept -> std::string_view
 		{
 			return status_text;
+		}
+
+		
+		auto SetStatusText(std::string_view s) -> void
+		{
+			status_text = alg::Str::ToLower(s);
+		}
+
+
+		auto SetVersion(std::string_view v) -> void
+		{
+			version = alg::Str::ToLower(v);
+		}
+
+		
+		auto SetStatusCode(std::string_view s) -> void
+		{
+			status_code = alg::Str::ToLower(s);
 		}
 
 	
@@ -152,7 +172,7 @@ namespace murphy::http
 			{
 				// throw
 			}
-			version = { status_line.substr(i, f - i) };
+			version = std::string{ status_line.substr(i, f - i) };
 
 			// Extract url.
 			i = f + 1;
