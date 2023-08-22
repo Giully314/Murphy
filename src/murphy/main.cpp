@@ -9,7 +9,7 @@ import <string>;
 
 import murphy.tcp;
 import murphy.winsock;
-import murphy.test.test_client_server;
+import murphy.test.http.test_http_transfer;
 
 using namespace murphy;
 using namespace std;
@@ -19,8 +19,9 @@ int main()
 
 	winsock::WinsockManager::Startup();
 
-	test::TestClientServer t;
+	test::TestHTTPTransfer t;
 	t.RunTest();
+
 
 	winsock::WinsockManager::Shutdown();
 

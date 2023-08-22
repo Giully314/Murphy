@@ -84,6 +84,17 @@ namespace murphy::tcp
 		[[nodiscard]]
 		auto Recv(non_owned_res<byte> data, u32 size) -> std::expected<i32, winsock::SocketError>;
 
+
+
+		auto SetTimeout(u32 time_ms) -> void
+		{
+			//DWORD recvTimeoutMs = 2000;
+			//DWORD sendTimeoutMs = 3000;
+			setsockopt(sock, SOL_SOCKET, SO_SNDTIMEO, (const char*)&time_ms, sizeof(time_ms));
+			setsockopt(sock, SOL_SOCKET, SO_RCVTIMEO, (const char*)&time_ms, sizeof(time_ms));
+		}
+
+
 		[[nodiscard]]
 		auto Socket() const -> SOCKET
 		{

@@ -55,11 +55,11 @@ namespace murphy::ds
 		// Append s bytes at the end. Always allocates additional memory.
 		// The memory allocated is always the stricly necessary to fit the data,
 		// no growth factor is used (like in std::vector).
-		auto Append(const non_owned_res<const byte> p, u32 s) -> void;
+		auto Append(const non_owned_res<const byte> p, const u64 s) -> void;
 
 		// Reserve new_capacity bytes and if needed reallocate. 
 		// If new capacity <= current capacity do nothing.
-		auto Reserve(u32 new_capacity) -> void;
+		auto Reserve(const u64 new_capacity) -> void;
 
 
 		auto Free() -> void
@@ -78,13 +78,13 @@ namespace murphy::ds
 		}
 
 		[[nodiscard]]
-		auto Size() const noexcept -> u32
+		auto Size() const noexcept -> u64
 		{
 			return size;
 		}
 
 		[[nodiscard]]
-		auto Capacity() const noexcept -> u32
+		auto Capacity() const noexcept -> u64
 		{
 			return capacity;
 		}
@@ -92,18 +92,18 @@ namespace murphy::ds
 	private:
 		// Allocate new memory and copy all the the data into the new memory.
 		// Precondition: s > size.
-		auto AllocateAndCopy(u32 new_size) -> void;
+		auto AllocateAndCopy(const u64 new_size) -> void;
 
 		[[nodiscard]]
-		auto ShouldRealloc(u32 check_size) -> bool
+		auto ShouldRealloc(const u64 check_size) -> bool
 		{
 			return check_size > capacity;
 		}
 
 	private:
 		unique_res<byte[]> data;
-		u32 size = 0; 
-		u32 capacity = 0;
+		u64 size = 0; 
+		u64 capacity = 0;
 	};
 
 
@@ -117,20 +117,20 @@ namespace murphy::ds
 
 		}
 
-		NonOwnedBuffer(non_owned_res<byte> d, const u32 s) :
+		NonOwnedBuffer(non_owned_res<byte> d, const u64 s) :
 			data(d), size(s)
 		{
 
 		}
 		
 		[[nodiscard]]
-		auto Data(const u32 idx = 0) const noexcept -> non_owned_res<byte>
+		auto Data(const u64 idx = 0) const noexcept -> non_owned_res<byte>
 		{
 			return &data[idx];
 		}
 
 		[[nodiscard]]
-		auto Size() const noexcept -> u32
+		auto Size() const noexcept -> u64
 		{
 			return size;
 		}
@@ -138,7 +138,7 @@ namespace murphy::ds
 
 	private:
 		non_owned_res<byte> data = nullptr;
-		u32 size = 0;
+		u64 size = 0;
 	};
 
 

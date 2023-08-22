@@ -73,13 +73,9 @@ namespace murphy::tcp
 		
 
 		// SocketError: DisconnectionError.
-		// Try to disconnect from the server. If errors occur, throw exception.
+		// Try to disconnect from the server.
 		[[nodiscard]]
 		auto Disconnect() -> std::expected<void, winsock::SocketError>;
-		
-		// Try to disconnect from the server. If errors occur, return false.
-		[[nodiscard]]
-		auto TryDisconnect() -> bool;
 
 
 		// SocketError: SendError.
@@ -109,6 +105,12 @@ namespace murphy::tcp
 		{
 			return sock;
 		}
+
+	private:
+		// Try to disconnect from the server. If errors occur, return false.
+		[[nodiscard]]
+		auto TryDisconnect() -> bool;
+
 
 	private:
 		SOCKET sock = INVALID_SOCKET;
