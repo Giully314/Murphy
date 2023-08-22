@@ -64,12 +64,28 @@ namespace murphy::test
 			//std::string_view msg{ raw_buffer, static_cast<size_t>(*i32_ret)};
 			http::Request<> request;
 			request.Parse(ds::NonOwnedBuffer{ raw_buffer, static_cast<u64>(*i32_ret) });
+			mconsole_log.Debug("{}", request.ToString());
 			/*if (!request)
 			{
 				mconsole_log.Debug("Error with parse http message.");
 				return;
 			}*/
-			mconsole_log.Debug("{}", request.ToString());
+
+
+			http::Response<http::MapHeader, http::EmptyBody> response;
+			response.SetVersion(version);
+			response.SetStatusCode("200");
+			response.SetStatusText("ok");
+			response.Set("Language", "en");
+			auto data = response.Serialize();
+			if (i32_ret = server.Send(data.Data(), data.Size()); !i32_ret)
+			{
+				WinsockManager::RegisterError(i32_ret.error());
+				mconsole_log.Debug("Error with server send.");
+				return;
+			}
+			mconsole_log.Debug("Server sent {} bytes.", i32_ret.value());
+
 		}
 
 
@@ -102,6 +118,19 @@ namespace murphy::test
 				return;
 			}
 			mconsole_log.Debug("Client sent {} bytes.", i32_ret.value());
+
+			constexpr u32 raw_buffer_size = 1024;
+			byte raw_buffer[raw_buffer_size];
+			if (i32_ret = client.Recv(raw_buffer, raw_buffer_size); !i32_ret)
+			{
+				WinsockManager::RegisterError(i32_ret.error());
+				mconsole_log.Debug("Error with client recv.");
+				return;
+			}
+			mconsole_log.Debug("client received {} bytes.", *i32_ret);
+			http::Response<http::MapHeader, http::EmptyBody> response;
+			response.Parse(ds::NonOwnedBuffer{ raw_buffer, static_cast<u64>(*i32_ret) });
+			mconsole_log.Debug("{}", response.ToString());
 		}
 
 
