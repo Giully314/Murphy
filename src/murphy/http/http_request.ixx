@@ -85,7 +85,7 @@ namespace murphy::http
 		[[nodiscard]]
 		auto Version() const noexcept -> std::string_view
 		{
-			return method;
+			return version;
 		}
 
 		auto SetMethod(std::string_view m) -> void
