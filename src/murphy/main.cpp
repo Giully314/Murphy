@@ -6,6 +6,7 @@
 import <iostream>;
 import <thread>;
 import <string>;
+import <print>;
 
 import murphy.tcp;
 import murphy.winsock;
@@ -19,8 +20,9 @@ int main()
 
 	winsock::WinsockManager::Startup();
 
-	test::TestHTTPTransfer t;
-	t.RunTest();
+
+	/*test::TestHTTPTransfer t;
+	t.RunTest();*/
 
 
 	winsock::WinsockManager::Shutdown();

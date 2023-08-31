@@ -8,6 +8,7 @@ export module murphy.types;
 
 export import <memory>;
 import <cstdint>;
+// import <stdfloat>;
 
 
 export namespace murphy
@@ -28,21 +29,7 @@ export namespace murphy
 	// Note: It must be guaranteed that the resource passed has a lifespan larger than the use.
 	template <typename T>
 	using non_owned_res = T*;
-
-
-	//This is just a type alias. Using this communicates that there is no check for nullptr.
-	template <typename T>
-	struct non_nullable_res
-	{
-		non_nullable_res(T* data) : p(data)
-		{
-			if (!data)
-			{
-				// throw
-			}
-		}
-		T* p;
-	};
+	
 
 	//Unique resource owned.
 	template <typename T>
@@ -80,6 +67,12 @@ export namespace murphy
 	}
 
 
+	// Empty type.
+	struct Empty
+	{
+
+	};
+
 
 	//Inherite private from this class to disable copy (and get errors at compile time).
 	struct NonCopyable
@@ -100,6 +93,4 @@ export namespace murphy
 		NonMovable(const NonMovable&) = default;
 		NonMovable& operator=(const NonMovable&) = default;
 	};
-
-	
 } // namespace murphy

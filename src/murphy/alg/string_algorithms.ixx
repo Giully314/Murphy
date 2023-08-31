@@ -1,5 +1,8 @@
 /*
 * murphy/alg/string_algorithms.ixx
+* 
+* PURPOSE: implementation of string algorithms.
+*
 */
 
 export module murphy.alg.string_algorithms;
@@ -14,9 +17,11 @@ namespace murphy::alg
 	export 
 	struct Str
 	{
+		// Create a new string from s and transform every character to lower representation.
+		// Complexity: O(n).
 		[[nodiscard]]
 		constexpr 
-		static auto ToLower(std::string_view s) -> std::string
+		static auto ToLower(const std::string_view s) -> std::string
 		{
 			std::string res{ s };
 			std::ranges::transform(res, res.begin(),
