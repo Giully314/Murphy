@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>16.0</VCProjectVersion>
+    <Keyword>Win32Proj</Keyword>
+    <ProjectGuid>{d77b2df5-5168-48e1-ace9-c52d3a04833b}</ProjectGuid>
+    <RootNamespace>Murphy</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;MRP_LOGGER_ON;MRP_ASSERT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
+      <EnableModules>false</EnableModules>
+      <AdditionalIncludeDirectories>src;</AdditionalIncludeDirectories>
+      <ScanSourceForModuleDependencies>true</ScanSourceForModuleDependencies>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="src\murphy\alg\string_algorithms.ixx" />
+    <ClCompile Include="src\murphy\dom\dom_node.ixx" />
+    <ClCompile Include="src\murphy\dom\dom_node_list.ixx" />
+    <ClCompile Include="src\murphy\ds\buffer.cpp" />
+    <ClCompile Include="src\murphy\ds\buffer.ixx" />
+    <ClCompile Include="src\murphy\ds\ds.ixx" />
+    <ClCompile Include="src\murphy\html\html.ixx" />
+    <ClCompile Include="src\murphy\html\html_errors.ixx" />
+    <ClCompile Include="src\murphy\html\html_parser.cpp" />
+    <ClCompile Include="src\murphy\html\html_parser.ixx" />
+    <ClCompile Include="src\murphy\html\html_scanner.ixx" />
+    <ClCompile Include="src\murphy\html\html_token.ixx" />
+    <ClCompile Include="src\murphy\http\http.ixx" />
+    <ClCompile Include="src\murphy\http\http_bodies.cpp" />
+    <ClCompile Include="src\murphy\http\http_bodies.ixx" />
+    <ClCompile Include="src\murphy\http\http_concepts.ixx" />
+    <ClCompile Include="src\murphy\http\http_errors.ixx" />
+    <ClCompile Include="src\murphy\http\http_header.ixx" />
+    <ClCompile Include="src\murphy\http\http_message.ixx" />
+    <ClCompile Include="src\murphy\http\http_request.ixx" />
+    <ClCompile Include="src\murphy\http\http_response.ixx" />
+    <ClCompile Include="src\murphy\http\http_utility.ixx" />
+    <ClCompile Include="src\murphy\log\console_stream.ixx" />
+    <ClCompile Include="src\murphy\log\level.ixx" />
+    <ClCompile Include="src\murphy\log\log.ixx" />
+    <ClCompile Include="src\murphy\log\logger.ixx" />
+    <ClCompile Include="src\murphy\log\logger_system.ixx" />
+    <ClCompile Include="src\murphy\log\log_message.cpp" />
+    <ClCompile Include="src\murphy\log\log_message.ixx" />
+    <ClCompile Include="src\murphy\log\mutex_console_stream.ixx" />
+    <ClCompile Include="src\murphy\main.cpp" />
+    <ClCompile Include="src\murphy\tcp\tcp.ixx" />
+    <ClCompile Include="src\murphy\tcp\tcp_client.cpp" />
+    <ClCompile Include="src\murphy\tcp\tcp_client.ixx" />
+    <ClCompile Include="src\murphy\winsock\winsock.ixx" />
+    <ClCompile Include="src\murphy\winsock\winsock_errors.ixx" />
+    <ClCompile Include="src\murphy\tcp\tcp_server.cpp" />
+    <ClCompile Include="src\murphy\tcp\tcp_server.ixx" />
+    <ClCompile Include="src\murphy\tcp\tcp_utils.ixx" />
+    <ClCompile Include="src\murphy\types.ixx" />
+    <ClCompile Include="src\murphy\winsock\winsock_layer.cpp" />
+    <ClCompile Include="src\murphy\winsock\winsock_layer.ixx" />
+    <ClCompile Include="test\html\test_html_scanner.ixx" />
+    <ClCompile Include="test\http\test_http_transfer.ixx" />
+    <ClCompile Include="test\tcp\test_client_server.ixx" />
+    <ClCompile Include="test\test_base.ixx" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\murphy\log\logger_macro.hpp" />
+    <ClInclude Include="src\murphy\massert.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="src\murphy\html\html_scanner.cpp" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
