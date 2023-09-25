@@ -88,7 +88,7 @@ namespace murphy::html
 			{
 			case TokenType::Invalid:
 			case TokenType::EndOfFile:
-				data = Empty{}
+				data = Empty{};
 				break;
 			
 			case TokenType::DOCTYPE:

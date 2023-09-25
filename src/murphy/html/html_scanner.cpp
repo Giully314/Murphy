@@ -7,144 +7,197 @@ module murphy.html.html_scanner;
 
 import <cctype>;
 
+
 namespace murphy::html
 {
-	auto Scanner::MakeToken(TokenType type) -> Token
+	auto Scanner::MakeCodePointToken(Character c) -> Token
 	{
-		Token t{ type };
-		return t;
+		auto token = Token{ TokenType::Character };
+		token.SetCodePoint(c);
+		return token;
 	}
 
 	auto Scanner::MakeEOFToken() -> Token
 	{
-		Token t{ TokenType::EndOfFile };
-		return t;
+		auto token = Token{ TokenType::EndOfFile };
+		return token;
 	}
 
-
-	auto Scanner::MakeCodePointToken(Character c) -> Token
-	{
-		Token t{ TokenType::Character };
-		t.SetCodePoint(c);
-		return t;
-	}
-
-
-
-	auto Scanner::FlushCodePointsConsumedAsReference() -> std::optional<Token>
-	{
-		switch (return_state)
-		{
-		case State::AttributeValueDoubleQuoted:
-		case State::AttributeValueSingleQuoted:
-		case State::AttributeValueUnquoted:
-			// from temporary_buffer to current attribute value
-			return std::nullopt;
-
-		default:
-			return 
-		}
-	}
-
-
-	auto Scanner::SkipWhiteSpaces() -> void
-	{
-		constexpr static auto f = [](char ch) -> bool
-			{
-				return std::isspace(static_cast<unsigned char>(ch));
-			};
-
-		while (!IsEnd() && f(text[current_idx++]));
-	}
-
-
+	
 	auto Scanner::Scan() -> Token
 	{
-		//auto c = Advance();
-		//if (!c)
-		//{
-		//	// Emit EOF token.
-		//}
+		emit_token = std::nullopt;
+		current_char = std::nullopt;
 
-		//current_char = *c;
-		while (true) 
+		while (true)
 		{
-			switch (state)
+			switch (current_state)
 			{
 			case State::Data:
-				if (auto t = DataState(); t) return *t;
+				DataState();
 				break;
-
-			case State::CharacterReference:
-
+			
+			case State::RCDATA:
+				RCDATAState();
+				break;
+			
+			case State::RawText:
+				RAWTEXTState();
+				break;
 			}
 
 
+			if (emit_token)
+			{
+				return *emit_token;
+			}
 		}
 	}
 
 
-	auto Scanner::DataState() -> std::optional<Token>
+	auto Scanner::NullCharError(Character c) -> void
 	{
-		auto c = Advance();
-
-		// This is EOF
-		if (!c)
-		{
-			return MakeEOFToken();
-		}
-
-		switch (*c)
-		{
-		case '&':
-			return_state = State::Data;
-			state = State::CharacterReference;
-			break;
-
-		case '<':
-			state = State::RCDATALessThanSign;
-			break;
-		case '\0':
-			Error::ScannerError("Null character error");
-			auto t = MakeToken(TokenType::Character);
-			t.SetCodePoint(*c);
-			return t;
-		default:
-			return MakeCodePointToken(*c);
-		}
-
-		return std::nullopt;
+		// This state is unexpected null char parse error.
+		// emit the current char as a char token.
+		Error::ScannerNullCharParseError(current_state, current_idx);
+		// TODO: set scanner internal error.
+		emit_token = MakeCodePointToken(c);
 	}
 
-	auto Scanner::CharacterReferenceState() -> void
-	{
-		temporary_buffer = "&";
-		auto c = Advance();
-		
-		// error 
-		if (!c)
-		{
-			// anything else 
-		}
-		
 
-		if (IsAlphaNumeric(*c))
+	auto Scanner::DataState() -> void
+	{
+		if (current_char = Advance(); current_char)
 		{
-			Back();
-			state = State::NamedCharacterReference;
-			return;
-		}
-		else if (*c == '#')
-		{
-			temporary_buffer.push_back(*c);
-			state = State::NumericCharacterReference;
-			return;
+			switch (*current_char)
+			{
+			case '&':
+			{
+				return_state = State::Data;
+				current_state = State::CharacterReference;
+				return;
+			}
+			case '<':
+			{
+				current_state = State::TagOpen;
+				return;
+			}
+			case '\0':
+			{
+				NullCharError();
+				return;
+			}
+			default:
+			{
+				// emit the current input character as a char token.
+				emit_token = MakeCodePointToken(*current_char);
+				return;
+			}
+			}
 		}
 		else
 		{
-			FlushCodePointsConsumedAsReference();
-			state = return_state;
-			Back();
+			// emit an end of file token.
+			emit_token = MakeEOFToken();
+		}
+	}
+	
+
+	auto Scanner::RCDATAState() -> void
+	{
+		if (current_char = Advance(); current_char)
+		{
+			switch (*current_char)
+			{
+			case '&':
+			{
+				return_state = State::RCDATA;
+				current_state = State::CharacterReference;
+				return;
+			}
+			case '<':
+			{
+				current_state = State::RCDATALessThanSign;
+				return;
+			}
+			case '\0':
+			{
+				NullCharError(*current_char);
+				return;
+			}
+			default:
+			{
+				// emit the current input character as a char token.
+				emit_token = MakeCodePointToken(*current_char);
+				return;
+			}
+			}
+		}
+		else
+		{
+			emit_token = MakeEOFToken();
+		}
+	}
+
+
+	auto Scanner::RAWTEXTState() -> void
+	{
+		if (current_char = Advance(); current_char)
+		{
+			switch (*current_char)
+			{
+			case '<':
+			{
+				current_state = State::RAWTEXTLessThanSign;
+				return;
+			}
+			case '\0':
+			{
+				NullCharError(*current_char);
+				return;
+			}
+			default:
+			{
+				// emit the current input character as a char token.
+				emit_token = MakeCodePointToken(*current_char);
+				return;
+			}
+			}
+		}
+		else
+		{
+			emit_token = MakeEOFToken();
+		}
+	}
+
+
+	auto Scanner::ScriptDataState() -> void
+	{
+		if (current_char = Advance(); current_char)
+		{
+			switch (*current_char)
+			{
+			case '<':
+			{
+				current_state = State::ScriptDataLessThanSign;
+				return;
+			}
+			case '\0':
+			{
+				// Replacement character
+				NullCharError(0xfffd);
+				return;
+			}
+			default:
+			{
+				emit_token = MakeCodePointToken(*current_char);
+				return;
+			}
+			}
+		}
+		else
+		{
+			emit_token = MakeEOFToken();
 		}
 	}
 

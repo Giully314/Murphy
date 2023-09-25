@@ -138,13 +138,19 @@ namespace murphy::html
 
     // State set functions based on https://html.spec.whatwg.org/multipage/parsing.html#data-state
     private:
-        auto DataState() -> std::optional<Token>;
+        auto DataState() -> void;
+        auto RCDATAState() -> void;
+        auto RAWTEXTState() -> void;
+        auto ScriptDataState() -> void;
+        
         auto CharacterReferenceState() -> void;
         
-
         auto FlushCodePointsConsumedAsReference() -> std::optional<Token>;
 
+
 	private:
+        auto NullCharError(Character c) -> void;
+
 		auto MakeToken(TokenType type) -> Token;
         auto MakeCodePointToken(Character c) -> Token;
         auto MakeEOFToken() -> Token;
@@ -184,11 +190,16 @@ namespace murphy::html
 		u32 start_idx = 0; // points to the start of the current char in NextScan
 		u32 current_idx = 0; // points to the current char
 	    
-        std::string temporary_buffer;
-
-        State state = State::Data;
+        State current_state = State::Data;
         State return_state = State::Data;
-        
-        Token current_token;
+        //State next_state = State::Data;
+
+
+        std::optional<CharacterType> current_char;
+
+        // Used as a return value of a state function.
+        // Because each state can return or not a token, I prefer to use 
+        // a variable to be set for a return value and have a void return type.
+        std::optional<Token> emit_token;
     };
 } // namespace murphy::html

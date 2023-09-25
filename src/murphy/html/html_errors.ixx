@@ -29,5 +29,16 @@ namespace murphy::html
 			logger.Error("Scanner error");
 			logger.Error(msg, std::forward<Args>(args)...);
 		}
+
+		
+		// Args must be 2.
+		template <typename ...Args>
+		static auto ScannerNullCharParseError(Args&& ...args) -> void 
+		{
+			static_assert(sizeof...(Args) == 2);
+			auto& logger = log::LoggerSystem::Instance();
+			logger.Error("Scanner null char parse error: state {}  current_idx {}", std::forward<Args>(args)...);
+		}
+
 	};
 } // namespace murphy::html
